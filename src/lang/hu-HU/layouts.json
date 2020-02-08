@@ -17,23 +17,23 @@
       "cards": "Kártya",
       "title": "Cím",
       "subtitle": "Alcím",
-      "src": "Image Source",
+      "src": "Kép forrása",
       "content": "Body Content",
-      "fit": "Fit"
+      "fit": "Illesztés"
     },
     "tabular": {
-      "tabular": "Table",
+      "tabular": "Táblázat",
       "fields": "Fields"
     },
     "timeline": {
-      "timeline": "Timeline",
+      "timeline": "Idővonal",
       "fields": "Fields",
       "today": "ma",
       "events": "Események",
       "moreEvents": "and {amount} more...",
       "noEvents": "no events yet!",
       "date": "Date",
-      "content": "Content",
+      "content": "Tartalom",
       "title": "Cím",
       "color": "Color"
     }
