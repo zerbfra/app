@@ -3,8 +3,8 @@
     "calendar": {
       "calendar": "Calendar",
       "fields": "Fields",
-      "today": "today",
-      "events": "Events",
+      "today": "ma",
+      "events": "Események",
       "moreEvents": "and {amount} more...",
       "noEvents": "no events yet!",
       "date": "Date",
@@ -14,9 +14,9 @@
       "color": "Color"
     },
     "cards": {
-      "cards": "Cards",
+      "cards": "Kártya",
       "title": "Cím",
-      "subtitle": "Subtitle",
+      "subtitle": "Alcím",
       "src": "Image Source",
       "content": "Body Content",
       "fit": "Fit"
@@ -28,8 +28,8 @@
     "timeline": {
       "timeline": "Timeline",
       "fields": "Fields",
-      "today": "today",
-      "events": "Events",
+      "today": "ma",
+      "events": "Események",
       "moreEvents": "and {amount} more...",
       "noEvents": "no events yet!",
       "date": "Date",
