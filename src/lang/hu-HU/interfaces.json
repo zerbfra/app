@@ -594,7 +594,7 @@
 		},
 		"user": {
 			"user": "User",
-			"avatar": "Avatar",
+			"avatar": "Profilkép",
 			"name": "Name",
 			"template": "Sablon",
 			"template_comment": "How to format the users in the dropdown",
@@ -602,8 +602,8 @@
 			"placeholder_comment": "Add a placeholder"
 		},
 		"owner": {
-			"owner": "Owner",
-			"avatar": "Avatar",
+			"owner": "Tulajdonos",
+			"avatar": "Profilkép",
 			"name": "Name",
 			"template": "Sablon",
 			"template_comment": "How to display the user on the item detail page",
@@ -621,7 +621,7 @@
 		},
 		"user-updated": {
 			"user_updated": "User Updated",
-			"avatar": "Avatar",
+			"avatar": "Profilkép",
 			"name": "Name",
 			"template": "Sablon",
 			"template_comment": "How to display the user on the item detail page",
