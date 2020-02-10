@@ -51,7 +51,7 @@
 <script>
 import mixin from '@directus/extension-toolkit/mixins/interface';
 import getFieldsFromTemplate from '@/helpers/get-fields-from-template';
-import { find, isObject, mapValues, keyBy } from 'lodash';
+import { find, isObject, mapValues, keyBy, findIndex } from 'lodash';
 
 export default {
 	name: 'InterfaceManyToOne',
@@ -95,6 +95,11 @@ export default {
 			return this.value;
 		},
 
+		// The current language for the system - useful to get translated fields
+		systemLanguage() {
+			return this.$i18n.locale.split('-')[0];
+		},
+
 		// The fields that will be fetched and rendered in the item select modal. Will be based on
 		// the visible_fields option in the interface settings. NOTE: if that settings hasn't been
 		// configured, it will fallback on the fields that are in the dropdown template option
@@ -113,10 +118,17 @@ export default {
 		// component to render the dropdown
 		selectOptions() {
 			if (this.items.length === 0) return {};
-			const render = this.$helpers.micromustache.compile(this.options.template);
-
+			const render = (item, index) =>  {
+				const template = this.options.template
+				const templateWithIndex = template.split('.').join(`.${index}.`)
+				return this.$helpers.micromustache.render(templateWithIndex, item)
+			}
+			const byPrimaryKey = keyBy(this.items, this.relatedPrimaryKeyField);
+			const language = this.systemLanguage
 			return mapValues(keyBy(this.items, this.relatedPrimaryKeyField), item => {
-				return render(item);
+				const langIndex = findIndex(item.translation, function(o) { return o.lang == language });
+				return render(item, langIndex > 0 ? langIndex : 0);
+
 			});
 		}
 	},
@@ -160,11 +172,11 @@ export default {
 
 			return Promise.all([
 				this.$api.getItems(collection, params),
-				this.value ? this.$api.getItem(collection, this.valuePK) : null
+				this.value ? this.$api.getItem(collection, this.valuePK, {fields: '*.*', limit: 1}) : null
 			])
 				.then(([{ meta, data: items }, singleRes]) => {
 					if (singleRes) {
-						this.items = [...items, singleRes.data];
+						this.items = [singleRes.data, ...items];
 					} else {
 						this.items = items;
 					}
