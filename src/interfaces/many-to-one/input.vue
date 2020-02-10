@@ -119,18 +119,24 @@ export default {
 		selectOptions() {
 			if (this.items.length === 0) return {};
 			const template = this.options.template;
-			const relationField = template.split('.')[0].replace('{{', '');
 			const render = (item, index) => {
-				const templateWithIndex = template.split('.').join(`.${index}.`);
-				return this.$helpers.micromustache.render(templateWithIndex, item);
+				if (index !== undefined) {
+					console.log(item, index);
+					const templateWithIndex = template.split('.').join(`.${index}.`);
+					return this.$helpers.micromustache.render(templateWithIndex, item);
+				} else return this.$helpers.micromustache.render(template, item);
 			};
-			const byPrimaryKey = keyBy(this.items, this.relatedPrimaryKeyField);
+
+			const relationField = template.split('.')[0].replace('{{', '');
 			const language = this.systemLanguage;
 			return mapValues(keyBy(this.items, this.relatedPrimaryKeyField), item => {
 				const langIndex = findIndex(item[relationField], function(o) {
 					return o.lang == language;
 				});
-				return render(item, langIndex >= 0 ? langIndex : 0);
+				console.log(template);
+				return template.includes('.')
+					? render(item, langIndex >= 0 ? langIndex : 0)
+					: render(item);
 			});
 		}
 	},
