@@ -118,17 +118,19 @@ export default {
 		// component to render the dropdown
 		selectOptions() {
 			if (this.items.length === 0) return {};
-			const render = (item, index) =>  {
-				const template = this.options.template
-				const templateWithIndex = template.split('.').join(`.${index}.`)
-				return this.$helpers.micromustache.render(templateWithIndex, item)
-			}
+			const template = this.options.template;
+			const relationField = template.split('.')[0];
+			const render = (item, index) => {
+				const templateWithIndex = template.split('.').join(`.${index}.`);
+				return this.$helpers.micromustache.render(templateWithIndex, item);
+			};
 			const byPrimaryKey = keyBy(this.items, this.relatedPrimaryKeyField);
-			const language = this.systemLanguage
+			const language = this.systemLanguage;
 			return mapValues(keyBy(this.items, this.relatedPrimaryKeyField), item => {
-				const langIndex = findIndex(item.translation, function(o) { return o.lang == language });
-				return render(item, langIndex > 0 ? langIndex : 0);
-
+				const langIndex = findIndex(item[relationField], function(o) {
+					return o.lang == language;
+				});
+				return render(item, langIndex >= 0 ? langIndex : 0);
 			});
 		}
 	},
@@ -172,7 +174,9 @@ export default {
 
 			return Promise.all([
 				this.$api.getItems(collection, params),
-				this.value ? this.$api.getItem(collection, this.valuePK, {fields: '*.*', limit: 1}) : null
+				this.value
+					? this.$api.getItem(collection, this.valuePK, { fields: '*.*', limit: 1 })
+					: null
 			])
 				.then(([{ meta, data: items }, singleRes]) => {
 					if (singleRes) {
