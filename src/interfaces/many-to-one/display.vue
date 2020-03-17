@@ -4,6 +4,7 @@
 
 <script>
 import mixin from '@directus/extension-toolkit/mixins/interface';
+import { findIndex } from 'lodash';
 
 export default {
 	mixins: [mixin],
@@ -15,15 +16,27 @@ export default {
 		};
 	},
 	computed: {
+		systemLanguage() {
+			return this.$i18n.locale.split('-')[0];
+		},
 		displayValue() {
 			let value = this.value;
-
+			let template = this.options.template;
+			if (template.includes('.')) {
+				const relationField = template.split('.')[0].replace('{{', '');
+				const langIndex = findIndex(
+					value[relationField],
+					o => o.lang == this.systemLanguage
+				);
+				const templateWithIndex = template.split('.').join(`.${langIndex}.`);
+				template = templateWithIndex;
+			}
 			if (this.isPrimaryKey && this.data && this.loading === false) {
 				value = this.data;
 			}
 
 			if (value) {
-				return this.$helpers.micromustache.render(this.options.template, value);
+				return this.$helpers.micromustache.render(template, value);
 			}
 
 			return '--';
