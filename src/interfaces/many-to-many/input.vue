@@ -89,7 +89,7 @@
 					:disabled="readonly"
 					@click="startAddNewItem"
 				>
-					<v-icon name="add" />
+					<v-icon name="add" left />
 					{{ $t('add_new') }}
 				</v-button>
 
@@ -99,7 +99,7 @@
 					:disabled="readonly"
 					@click="selectExisting = true"
 				>
-					<v-icon name="playlist_add" />
+					<v-icon name="playlist_add" left />
 					{{ $t('select_existing') }}
 				</v-button>
 			</div>
@@ -523,6 +523,19 @@ export default {
 						after[this.junctionPrimaryKey].startsWith('$temp_')
 					) {
 						delete after[this.junctionPrimaryKey];
+					}
+
+					// If the new (before case was handled above) item's primary key field is set, then this is only the reference and
+					// we should only send the primary key field to the API.
+					// Otherwise the update is triggered by the API on the whole hierarchy
+					if (
+						after[this.junctionRelatedKey] &&
+						after[this.junctionRelatedKey][this.relatedPrimaryKeyField]
+					) {
+						after[this.junctionRelatedKey] = {
+							[this.relatedPrimaryKeyField]:
+								after[this.junctionRelatedKey][this.relatedPrimaryKeyField]
+						};
 					}
 
 					return after;

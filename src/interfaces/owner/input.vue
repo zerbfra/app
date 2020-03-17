@@ -4,24 +4,24 @@
 			v-if="options.display !== 'name'"
 			v-tooltip="options.display === 'avatar' ? displayValue : null"
 			class="avatar"
-			small
+			x-small
 		>
 			<img v-if="src" :src="src" />
-			<v-icon name="person" v-else />
+			<v-icon name="person" small v-else />
 		</v-avatar>
 		<span v-if="options.display !== 'avatar'" class="name">{{ displayValue }}</span>
-		<v-icon name="account_box" />
+		<v-icon name="account_box" color="--input-icon-color" />
 	</div>
 	<v-input
 		v-else-if="newItem"
 		:readonly="true"
-		:placeholder="$t('interfaces.user.created-you')"
+		:placeholder="$t('interfaces.owner.you')"
 		icon-right="account_box"
 	/>
 	<v-input
 		v-else
 		:readonly="true"
-		:placeholder="$t('interfaces.user.created-unknown')"
+		:placeholder="$t('interfaces.owner.unknown')"
 		icon-right="account_box"
 	/>
 </template>
@@ -65,19 +65,16 @@ export default {
 	display: flex;
 	align-items: center;
 	background-color: var(--input-background-color-disabled);
-	i {
+
+	> .v-icon {
 		position: absolute;
 		top: 50%;
-		color: var(--input-icon-color);
 		transform: translateY(-50%);
-		font-size: 24px;
 		right: 10px;
 	}
 }
 .avatar {
-	width: max-content;
-	height: auto;
-	display: inline-block;
+	display: inline-flex;
 	margin-right: 12px;
 }
 .name {

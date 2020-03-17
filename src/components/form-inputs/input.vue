@@ -151,7 +151,7 @@ export default {
 		},
 		iconLeftColor: {
 			type: String,
-			default: '--blue-grey'
+			default: '--input-icon-color'
 		},
 		iconLeftTooltip: {
 			type: String,
@@ -163,7 +163,7 @@ export default {
 		},
 		iconRightColor: {
 			type: String,
-			default: '--blue-grey'
+			default: '--input-icon-color'
 		},
 		iconRightTooltip: {
 			type: String,
@@ -324,11 +324,11 @@ export default {
 		}
 	}
 
-	&.icon-left .v-icon {
+	&.icon-left .v-icon.icon-left {
 		left: 10px;
 	}
 
-	&.icon-right .v-icon {
+	&.icon-right .v-icon.icon-right {
 		right: 10px;
 	}
 }

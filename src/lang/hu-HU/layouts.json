@@ -3,39 +3,39 @@
     "calendar": {
       "calendar": "Calendar",
       "fields": "Fields",
-      "today": "today",
-      "events": "Events",
-      "moreEvents": "and {amount} more...",
-      "noEvents": "no events yet!",
+      "today": "ma",
+      "events": "Események",
+      "moreEvents": "és még {amount}...",
+      "noEvents": "jelenleg nincs esemény!",
       "date": "Date",
       "datetime": "Datetime",
       "time": "Time",
-      "title": "Title",
-      "color": "Color"
+      "title": "Cím",
+      "color": "Szín"
     },
     "cards": {
-      "cards": "Cards",
-      "title": "Title",
-      "subtitle": "Subtitle",
-      "src": "Image Source",
+      "cards": "Kártya",
+      "title": "Cím",
+      "subtitle": "Alcím",
+      "src": "Kép forrása",
       "content": "Body Content",
-      "fit": "Fit"
+      "fit": "Illesztés"
     },
     "tabular": {
-      "tabular": "Table",
+      "tabular": "Táblázat",
       "fields": "Fields"
     },
     "timeline": {
-      "timeline": "Timeline",
+      "timeline": "Idővonal",
       "fields": "Fields",
-      "today": "today",
-      "events": "Events",
-      "moreEvents": "and {amount} more...",
-      "noEvents": "no events yet!",
+      "today": "ma",
+      "events": "Események",
+      "moreEvents": "és még {amount}...",
+      "noEvents": "jelenleg nincs esemény!",
       "date": "Date",
-      "content": "Content",
-      "title": "Title",
-      "color": "Color"
+      "content": "Tartalom",
+      "title": "Cím",
+      "color": "Szín"
     }
   }
 }

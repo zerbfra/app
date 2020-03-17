@@ -5,25 +5,39 @@ import store from './store';
 import { TOGGLE_NAV, TOGGLE_INFO } from './store/mutation-types';
 import { i18n } from './lang/';
 import EventBus from './events/';
+import hydrateStore from '@/hydrate';
+
 import Collections from './routes/collections.vue';
 import Items from './routes/items.vue';
 import FileLibrary from './routes/file-library.vue';
 import Item from './routes/item.vue';
 import Login from './routes/login.vue';
-import Setup2FA from './routes/setup-2fa.vue';
-import ResetPassword from './routes/reset-password.vue';
-import Install from './routes/install.vue';
-import NotFound from './routes/not-found.vue';
-import Interfaces from './routes/settings/interfaces.vue';
-import InterfaceDebugger from './routes/settings/interface-debugger.vue';
-import Settings from './routes/settings/settings.vue';
-import SettingsGlobal from './routes/settings/global.vue';
-import SettingsCollections from './routes/settings/collections.vue';
-import SettingsFields from './routes/settings/fields.vue';
-import SettingsRoles from './routes/settings/roles.vue';
-import SettingsPermissions from './routes/settings/permissions.vue';
-import ModuleExtension from './routes/module-extension.vue';
-import hydrateStore from '@/hydrate';
+
+const Setup2FA = () => import(/* webpackChunkName: "setup-2fa" */ './routes/setup-2fa.vue');
+const ResetPassword = () =>
+	import(/* webpackChunkName: "reset-password" */ './routes/reset-password.vue');
+const Install = () => import(/* webpackChunkName: "install" */ './routes/install.vue');
+const NotFound = () => import(/* webpackChunkName: "not-found" */ './routes/not-found.vue');
+const Interfaces = () =>
+	import(/* webpackChunkName: "settings_interfaces" */ './routes/settings/interfaces.vue');
+const InterfaceDebugger = () =>
+	import(
+		/* webpackChunkName: "settings_interfaces-debugger" */ './routes/settings/interface-debugger.vue'
+	);
+const Settings = () =>
+	import(/* webpackChunkName: "settings_settings" */ './routes/settings/settings.vue');
+const SettingsGlobal = () =>
+	import(/* webpackChunkName: "settings_global" */ './routes/settings/global.vue');
+const SettingsCollections = () =>
+	import(/* webpackChunkName: "settings_collections" */ './routes/settings/collections.vue');
+const SettingsFields = () =>
+	import(/* webpackChunkName: "settings_fields" */ './routes/settings/fields.vue');
+const SettingsRoles = () =>
+	import(/* webpackChunkName: "settings_roles" */ './routes/settings/roles.vue');
+const SettingsPermissions = () =>
+	import(/* webpackChunkName: "settings_permissions" */ './routes/settings/permissions.vue');
+const ModuleExtension = () =>
+	import(/* webpackChunkName: "module-extension" */ './routes/module-extension.vue');
 
 Vue.use(Router);
 
@@ -283,16 +297,15 @@ router.beforeEach(async (to, from, next) => {
 
 router.afterEach(to => {
 	// Prevent tracking if not logged in
+	// Ping the api for server latency after a couple seconds of navigation. We're waiting here
+	// for a little bit to give the app the chance to fetch and do other things before checking te latency
+	// this ensures an accurate representation of the server latency
+	setTimeout(() => store.dispatch('latency'), 1000);
 	if (store.state.hydrated) {
 		const pathsToIgnore = ['/setup-2fa', '/logout', '/login'];
 		if (!pathsToIgnore.includes(to.path)) {
 			store.dispatch('track', { page: to.path });
 		}
-
-		// Ping the api for server latency after a couple seconds of navigation. We're waiting here
-		// for a little bit to give the app the chance to fetch and do other things before checking te latency
-		// this ensures an accurate representation of the server latency
-		setTimeout(() => store.dispatch('latency'), 2500);
 	}
 });
 

@@ -77,16 +77,16 @@
 					>
 						<span class="name">{{ activity.name }}</span>
 					</v-user-popover>
-					<v-time-ago
+					<div
 						v-if="activity.date"
 						v-tooltip="{
 							content: $d(activity.date, 'long'),
 							delay: { show: 1500, hide: 100 }
 						}"
-						:datetime="activity.date"
-						:locale="$i18n.locale"
 						class="date"
-					/>
+					>
+						{{ getRelativeTimeFromNow(activity.date) }}
+					</div>
 				</div>
 				<p
 					v-if="activity.htmlcomment"
@@ -316,8 +316,8 @@ export default {
 		}
 
 		.date {
+			display: block;
 			color: var(--note-text-color);
-			margin-left: 8px;
 		}
 
 		.title {

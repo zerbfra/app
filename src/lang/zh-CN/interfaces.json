@@ -133,7 +133,7 @@
 			"unknown": "Unknown"
 		},
 		"datetime-updated": {
-			"datetime_updated": "时间已更新",
+			"datetime_updated": "更新日期",
 			"relative": "显示相对时间",
 			"relative_comment": "显示相对时间（例如 50 分钟前）",
 			"now": "You are creating this now",
@@ -453,6 +453,8 @@
 			"fields_comment": "What fields to show in each repeated row",
 			"limit": "Limit",
 			"limit_comment": "Maximum amount of rows the user can add",
+			"duplicable": "Duplicable rows",
+			"duplicable_comment": "Whether to make rows duplicable or not",
 			"structure": "Structure",
 			"structure_comment": "Whether to save the JSON as an array of objects or single object with unique keys",
 			"structure_key": "Structure Key Field",
@@ -620,7 +622,7 @@
 			"show_public": "Show public role"
 		},
 		"user-updated": {
-			"user_updated": "User Updated",
+			"user_updated": "更新人",
 			"avatar": "头像",
 			"name": "名称",
 			"template": "模板",

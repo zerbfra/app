@@ -15,11 +15,13 @@
 				:fields="repeaterFields"
 				:inline="inline"
 				:template="options.template"
+				:duplicable="options.duplicable"
 				:open="open === index"
 				:placeholder="options.placeholder"
 				@open="toggleOpen(index)"
 				@input="updateRow(index, $event)"
 				@remove="removeRow(index)"
+				@duplicate="duplicateRow(index)"
 			/>
 		</draggable>
 		<div v-if="addButtonVisible" class="add-new" @click="addRow">
@@ -120,6 +122,14 @@ export default {
 			this.rows = newRows;
 			this.emitValue();
 		},
+		duplicateRow(index) {
+			const newRows = clone(this.rows);
+			const duplicatedRow = clone(this.rows[index]);
+
+			newRows.splice(index + 1, 0, duplicatedRow);
+			this.rows = newRows;
+			this.emitValue();
+		},
 
 		emitValue() {
 			let value = clone(this.rows).map(row => {
@@ -139,7 +149,8 @@ export default {
 		},
 		getNewRow() {
 			const row = {
-				__key: shortid.generate()
+				__key: shortid.generate(),
+				newItem: true
 			};
 
 			this.repeaterFields.forEach(field => {
