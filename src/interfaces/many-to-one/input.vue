@@ -119,24 +119,31 @@ export default {
 		selectOptions() {
 			if (this.items.length === 0) return {};
 			const template = this.options.template;
-			const render = (item, index) => {
-				if (index !== undefined) {
-					console.log(item, index);
-					const templateWithIndex = template.split('.').join(`.${index}.`);
-					return this.$helpers.micromustache.render(templateWithIndex, item);
+			const render = item => {
+				if (template.includes('.')) {
+					let translationKeys = [];
+					let parsedTemplate = template;
+					Object.keys(item).forEach(key => {
+						// a translation is an array - so I check for it and I replace it with the index of the language
+						// for instance: data.name becomes data.[index-of-lang].name
+						if (Array.isArray(item[key])) {
+							const langIndex = findIndex(item[key], function(o) {
+								return o.lang == language;
+							});
+							parsedTemplate = parsedTemplate.replace(
+								new RegExp(key, 'g'),
+								`${key}.${langIndex}`
+							);
+						}
+					});
+					return this.$helpers.micromustache.render(parsedTemplate, item);
 				} else return this.$helpers.micromustache.render(template, item);
 			};
 
 			const relationField = template.split('.')[0].replace('{{', '');
 			const language = this.systemLanguage;
 			return mapValues(keyBy(this.items, this.relatedPrimaryKeyField), item => {
-				const langIndex = findIndex(item[relationField], function(o) {
-					return o.lang == language;
-				});
-				console.log(template);
-				return template.includes('.')
-					? render(item, langIndex >= 0 ? langIndex : 0)
-					: render(item);
+				return render(item);
 			});
 		}
 	},
