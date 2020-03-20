@@ -23,13 +23,22 @@ export default {
 			let value = this.value;
 			let template = this.options.template;
 			if (template.includes('.')) {
-				const relationField = template.split('.')[0].replace('{{', '');
-				const langIndex = findIndex(
-					value[relationField],
-					o => o.lang == this.systemLanguage
-				);
-				const templateWithIndex = template.split('.').join(`.${langIndex}.`);
-				template = templateWithIndex;
+				let translationKeys = [];
+				let parsedTemplate = template;
+				Object.keys(value).forEach(key => {
+					// a translation is an array - so I check for it and I replace it with the index of the language
+					// for instance: data.name becomes data.[index-of-lang].name
+					if (Array.isArray(value[key])) {
+						const langIndex = findIndex(value[key], o => {
+							return o.lang == this.systemLanguage;
+						});
+						parsedTemplate = parsedTemplate.replace(
+							new RegExp(key, 'g'),
+							`${key}.${langIndex}`
+						);
+					}
+				});
+				template = parsedTemplate;
 			}
 			if (this.isPrimaryKey && this.data && this.loading === false) {
 				value = this.data;
